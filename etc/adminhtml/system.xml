@@ -17,7 +17,7 @@
 				</field>
 				<field id="language_association" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="textarea">
 					<label>Language association</label>
-                    <comment>Enter store ID and language code as id,code separated by new line (for example: 1,en-GB)</comment>
+                    <comment>Enter store view ID and language code as id,code with each store view ID and code separated by new line (for example: 1,en-GB [press enter] 2,fr-FR)</comment>
 				</field>
 			</group>
 		</section>
