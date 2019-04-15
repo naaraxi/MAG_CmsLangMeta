@@ -3,7 +3,13 @@
  * @var $block \MAG\CmsLangMeta\Block\Html\Head\Meta
  */
 ?>
-<div>
-	<?= $block->displayMetaTag() ?>
-	<?= __('Hello MAG_CmsLangMeta::html/head/meta.phtml') ?>
-</div>
+
+<?php if ($block->isEnabled()): ?>
+    <?php if ($block->hasSetting()): ?>
+        <link
+            rel="alternate"
+            hreflang="<?php echo $block->getLang() ?>"
+            href="<?php echo $block->getUrl() ?>"
+        />
+    <?php endif; ?>
+<?php endif; ?>

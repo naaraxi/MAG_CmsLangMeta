@@ -13,6 +13,17 @@ namespace MAG\CmsLangMeta\Block\Html\Head;
 
 class Meta extends \Magento\Framework\View\Element\Template
 {
+    const XML_PATH_MODULE_ACTIVE = 'cms/mag/active';
+    const XML_PATH_LANG_ASSOC = 'cms/mag/language_association';
+    /*
+     * Scope config
+     */
+    public $scopeConfig;
+
+    /*
+     * Store manager
+     */
+    public $storeManager;
 
     /**
      * Constructor
@@ -22,17 +33,63 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = []
     ) {
+        $this->scopeConfig = $scopeConfig;
+        $this->storeManager = $storeManager;
         parent::__construct($context, $data);
     }
 
-    /**
+    /*
+     * Check if module is enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue(self::XML_PATH_MODULE_ACTIVE, $storeScope);
+    }
+
+    /*
+     * Check if there's a setting for current CMS page
+     *
+     * @return bool
+     */
+    public function hasSetting()
+    {
+        return true;
+    }
+
+    /*
+     * Get CMS page URL
+     *
      * @return string
      */
-    public function displayMetaTag()
+    public function getUrl()
     {
-        //Your block code
-        return __('Hello Developer! This how to get the storename: %1 and this is the way to build a url: %2', $this->_storeManager->getStore()->getName(), $this->getUrl('contacts'));
+        return 'URL';
+    }
+
+    /*
+     * Get language code
+     *
+     * @return string
+     */
+    public function getLang()
+    {
+        return 'LANG';
+    }
+
+    /**
+     * Get store identifier
+     *
+     * @return  int
+     */
+    public function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }

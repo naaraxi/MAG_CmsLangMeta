@@ -9,15 +9,15 @@
 			<tab>general</tab>
 			<resource>MAG_CmsLangMeta::config_mag_cmslangmeta</resource>
 			<group id="mag" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-				<label>mag</label>
+                <label>MAG</label>
 				<field id="active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
-					<label>active</label>
+                    <label>Enable module</label>
 					<comment/>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 				<field id="language_association" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="textarea">
-					<label>language_association</label>
-					<comment/>
+					<label>Language association</label>
+                    <comment>Enter store ID and language code as id,code separated by new line (for example: 1,en-GB)</comment>
 				</field>
 			</group>
 		</section>
