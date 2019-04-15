@@ -1,0 +1,22 @@
+{
+    "name": "mag/module-cmslangmeta",
+    "description": "",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "email": "alex.mazalu@outlook.com",
+            "name": "MAG"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MAG\\CmsLangMeta\\": ""
+        }
+    }
+}

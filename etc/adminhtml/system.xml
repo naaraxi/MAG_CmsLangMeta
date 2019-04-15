@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="general" sortOrder="999" translate="label">
+			<label>general</label>
+		</tab>
+		<section id="cms" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>cms</label>
+			<tab>general</tab>
+			<resource>MAG_CmsLangMeta::config_mag_cmslangmeta</resource>
+			<group id="mag" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>mag</label>
+				<field id="active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+					<label>active</label>
+					<comment/>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="language_association" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="textarea">
+					<label>language_association</label>
+					<comment/>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>
