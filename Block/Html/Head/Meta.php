@@ -47,7 +47,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    public function isEnabled()
+    public function isModuleEnabled()
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue(self::XML_PATH_MODULE_ACTIVE, $storeScope);
@@ -58,7 +58,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      *
      * @return bool
      */
-    public function hasSetting()
+    public function hasLangSetting()
     {
         return true;
     }
@@ -68,7 +68,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getUrl()
+    public function getCmsUrl()
     {
         return 'URL';
     }
@@ -78,7 +78,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getLang()
+    public function getCmsLang()
     {
         return 'LANG';
     }

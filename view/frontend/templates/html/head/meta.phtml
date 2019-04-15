@@ -4,12 +4,12 @@
  */
 ?>
 
-<?php if ($block->isEnabled()): ?>
-    <?php if ($block->hasSetting()): ?>
+<?php if ($block->isModuleEnabled()): ?>
+    <?php if ($block->hasLangSetting()): ?>
         <link
             rel="alternate"
-            hreflang="<?php echo $block->getLang() ?>"
-            href="<?php echo $block->getUrl() ?>"
+            hreflang="<?php echo $block->getCmsLang() ?>"
+            href="<?php echo $block->getCmsUrl() ?>"
         />
     <?php endif; ?>
 <?php endif; ?>
