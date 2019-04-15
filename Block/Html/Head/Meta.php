@@ -50,7 +50,7 @@ class Meta extends \Magento\Framework\View\Element\Template
     public function isModuleEnabled()
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::XML_PATH_MODULE_ACTIVE, $storeScope);
+        return $this->scopeConfig->getValue(self::XML_PATH_MODULE_ACTIVE, $storeScope, $this->getStoreId());
     }
 
     /*
@@ -60,7 +60,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function hasLangSetting()
     {
-        return true;
+        return ($this->_getConfigForCurrentStore() !== false);
     }
 
     /*
@@ -80,7 +80,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function getCmsLang()
     {
-        return 'LANG';
+        return $this->_getConfigForCurrentStore();
     }
 
     /**
@@ -91,5 +91,18 @@ class Meta extends \Magento\Framework\View\Element\Template
     public function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
+    }
+
+    private function _getConfigForCurrentStore()
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $lang_assoc = $this->scopeConfig->getValue(self::XML_PATH_LANG_ASSOC, $storeScope, $this->getStoreId());
+        $assoc = str_getcsv($lang_assoc);
+        foreach ($assoc as $config) {
+            if ($config[0] == $this->getStoreId()) {
+                return $config[1];
+            }
+        }
+        return false;
     }
 }
