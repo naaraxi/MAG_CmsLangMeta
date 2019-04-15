@@ -3,6 +3,7 @@
     "description": "",
     "type": "magento2-module",
     "license": "OSL-3.0",
+    "version": "0.0.1",
     "authors": [
         {
             "email": "alex.mazalu@outlook.com",
