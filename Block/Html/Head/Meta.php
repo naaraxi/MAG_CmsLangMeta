@@ -134,12 +134,11 @@ class Meta extends \Magento\Framework\View\Element\Template
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $lang_assoc = $this->scopeConfig->getValue(self::XML_PATH_LANG_ASSOC, $storeScope, $this->getStoreId());
-        $lines = explode("\n", $lang_assoc);
+        $lines = (strlen($lang_assoc)) ? json_decode($lang_assoc, true) : array();
         foreach ($lines as $config) {
-            $assoc = str_getcsv($config);
-            if ($assoc[0] == $this->getStoreId()) {
+            if ($config['storeid'] == $this->getStoreId()) {
                 // Config found for current store view
-                return $assoc[1];
+                return $config['language'];
             }
         }
 

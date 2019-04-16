@@ -14,11 +14,12 @@
                     <label>Enable module</label>
 					<comment/>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-				</field>
-				<field id="language_association" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="textarea">
-					<label>Language association</label>
-                    <comment>Enter store view ID and language code as id,code with each store view ID and code separated by new line (for example: 1,en-GB [press enter] 2,fr-FR)</comment>
-				</field>
+                </field>
+                <field id="language_association" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Language Association</label>
+                    <frontend_model>MAG\CmsLangMeta\Block\Adminhtml\Form\Field\LanguageAssociation</frontend_model>
+                    <backend_model>MAG\CmsLangMeta\Config\Backend\LanguageAssociation</backend_model>
+                </field>
 			</group>
 		</section>
 	</system>
