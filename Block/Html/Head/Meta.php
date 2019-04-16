@@ -22,41 +22,31 @@ namespace MAG\CmsLangMeta\Block\Html\Head;
  */
 class Meta extends \Magento\Framework\View\Element\Template
 {
-    const XML_PATH_MODULE_ACTIVE = 'cms/mag/active';
-    const XML_PATH_LANG_ASSOC = 'cms/mag/language_association';
-    /*
-     * Scope config
-     */
-    public $scopeConfig;
-
-    /*
-     * Store manager
-     */
-    public $storeManager;
-
     /*
      * Page
      */
     public $page;
 
+    /*
+     * Helper
+     */
+    public $helper;
+
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Element\Template\Context   $context      Context
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig  Scope config
-     * @param \Magento\Store\Model\StoreManagerInterface         $storeManager Store manager
-     * @param \Magento\Cms\Model\Page                            $page         CMS Page
-     * @param array                                              $data         Data
+     * @param \Magento\Framework\View\Element\Template\Context $context Context
+     * @param \MAG\CmsLangMeta\Helper\Data                     $helper  Helper
+     * @param \Magento\Cms\Model\Page                          $page    CMS Page
+     * @param array                                            $data    Data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \MAG\CmsLangMeta\Helper\Data $helper,
         \Magento\Cms\Model\Page $page,
         array $data = []
     ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->storeManager = $storeManager;
+        $this->helper = $helper;
         $this->page = $page;
         parent::__construct($context, $data);
     }
@@ -68,8 +58,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function isModuleEnabled()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        return $this->scopeConfig->getValue(self::XML_PATH_MODULE_ACTIVE, $storeScope, $this->getStoreId());
+        return $this->helper->isModuleEnabled();
     }
 
     /**
@@ -79,7 +68,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function hasLangSetting()
     {
-        return ($this->isCmsPageShared() && $this->_getConfigForCurrentStore() !== false);
+        return ($this->isCmsPageShared() && $this->helper->_getConfigForCurrentStore() !== false);
     }
 
     /**
@@ -101,17 +90,7 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function getCmsLang()
     {
-        return $this->_getConfigForCurrentStore();
-    }
-
-    /**
-     * Get store identifier
-     *
-     * @return int
-     */
-    public function getStoreId()
-    {
-        return $this->_storeManager->getStore()->getId();
+        return $this->helper->_getConfigForCurrentStore();
     }
 
     /**
@@ -123,26 +102,5 @@ class Meta extends \Magento\Framework\View\Element\Template
     {
         $storeIds = $this->page->getData('store_id');
         return (count($storeIds) > 1);
-    }
-
-    /**
-     * Get language config for current store
-     *
-     * @return string/bool
-     */
-    private function _getConfigForCurrentStore()
-    {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $lang_assoc = $this->scopeConfig->getValue(self::XML_PATH_LANG_ASSOC, $storeScope, $this->getStoreId());
-        $lines = (strlen($lang_assoc)) ? json_decode($lang_assoc, true) : array();
-        foreach ($lines as $config) {
-            if ($config['storeid'] == $this->getStoreId()) {
-                // Config found for current store view
-                return $config['language'];
-            }
-        }
-
-        // No config for current store view
-        return false;
     }
 }

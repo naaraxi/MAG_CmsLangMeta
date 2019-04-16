@@ -73,9 +73,10 @@ class StoreView extends \Magento\Framework\View\Element\Html\Select
      */
     public function _toHtml()
     {
+        $this->setClass('required-entry validate-select');
         if (!$this->getOptions()) {
             $stores = $this->storeManager->getStores();
-            $this->addOption(0, '');
+            $this->addOption('', '');
 
             foreach ($stores as $key => $store) {
                 $this->addOption($key, $store->getWebsite()->getName() . ' - ' . $store['name']);

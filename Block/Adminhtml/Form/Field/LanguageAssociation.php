@@ -54,7 +54,7 @@ class LanguageAssociation extends AbstractFieldArray
      */
     protected function _prepareToRender()
     {
-        $this->addColumn('storeid', ['label' => __('Store View ID'), 'class' => 'required-entry validate-select', 'renderer' => $this->_getStoreIdRenderer()]);
+        $this->addColumn('storeid', ['label' => __('Store View ID'), 'renderer' => $this->_getStoreIdRenderer()]);
         $this->addColumn('language', ['label' => __('Language Code'), 'class' => 'required-entry', 'size' => '5']);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add Language Association');
