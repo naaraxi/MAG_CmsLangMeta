@@ -33,12 +33,18 @@ class StoreView extends \Magento\Framework\View\Element\Html\Select
      */
     protected $websiteCollectionFactory;
 
+    /*
+     * Helper
+     */
+    protected $helper;
+
     /**
      * Constructor
      *
      * @param Context               $context                  Context
      * @param StoreManagerInterface $storeManager             Store Manager
      * @param CollectionFactory     $websiteCollectionFactory Website collection factory
+     * @param Data                  $helper                   Helper
      * @param array                 $data                     Data
      *
      * @return void
@@ -47,10 +53,12 @@ class StoreView extends \Magento\Framework\View\Element\Html\Select
         \Magento\Framework\View\Element\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Store\Model\ResourceModel\Website\CollectionFactory $websiteCollectionFactory,
+        \MAG\CmsLangMeta\Helper\Data $helper,
         array $data = []
     ) {
         $this->storeManager = $storeManager;
         $this->websiteCollectionFactory = $websiteCollectionFactory;
+        $this->helper = $helper;
         parent::__construct($context, $data);
     }
 
@@ -77,6 +85,8 @@ class StoreView extends \Magento\Framework\View\Element\Html\Select
         if (!$this->getOptions()) {
             $stores = $this->storeManager->getStores();
             $this->addOption('', '');
+
+            $lines = $this->helper->getConfigLines();
 
             foreach ($stores as $key => $store) {
                 $this->addOption($key, $store->getWebsite()->getName() . ' - ' . $store['name']);

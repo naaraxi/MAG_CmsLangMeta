@@ -37,6 +37,11 @@ class Data extends AbstractHelper
      */
     public $storeManager;
 
+    /*
+     * Config lines
+     */
+    public $_configLines;
+
     /**
      * Constructor
      *
@@ -56,7 +61,32 @@ class Data extends AbstractHelper
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
 
+        $this->_configLines = $this->fetchConfigLines();
+
         parent::__construct($context);
+    }
+
+    /**
+     * Return configLines
+     *
+     * @return array
+     */
+    public function getConfigLines()
+    {
+        return $this->_configLines;
+    }
+
+    /**
+     * Get language association config lines
+     *
+     * @return array
+     */
+    public function fetchConfigLines()
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $lang_assoc = $this->scopeConfig->getValue(self::XML_PATH_LANG_ASSOC, $storeScope, $this->getStoreId());
+        $lines = (strlen($lang_assoc)) ? json_decode($lang_assoc, true) : array();
+        return $lines;
     }
 
     /**
@@ -66,9 +96,7 @@ class Data extends AbstractHelper
      */
     public function _getConfigForCurrentStore()
     {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $lang_assoc = $this->scopeConfig->getValue(self::XML_PATH_LANG_ASSOC, $storeScope, $this->getStoreId());
-        $lines = (strlen($lang_assoc)) ? json_decode($lang_assoc, true) : array();
+        $lines = $this->getConfigLines();
         foreach ($lines as $config) {
             if ($config['storeid'] == $this->getStoreId()) {
                 // Config found for current store view
