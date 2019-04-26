@@ -90,25 +90,6 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get language config for current store
-     *
-     * @return string/bool
-     */
-    public function _getConfigForCurrentStore()
-    {
-        $lines = $this->getConfigLines();
-        foreach ($lines as $config) {
-            if ($config['storeid'] == $this->getStoreId()) {
-                // Config found for current store view
-                return $config['language'];
-            }
-        }
-
-        // No config for current store view
-        return false;
-    }
-
-    /**
      * Get store identifier
      *
      * @return int

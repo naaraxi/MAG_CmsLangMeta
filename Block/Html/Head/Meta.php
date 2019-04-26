@@ -32,22 +32,30 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public $helper;
 
+    /*
+     * Store manager
+     */
+    public $storeManager;
+
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Element\Template\Context $context Context
-     * @param \MAG\CmsLangMeta\Helper\Data                     $helper  Helper
-     * @param \Magento\Cms\Model\Page                          $page    CMS Page
-     * @param array                                            $data    Data
+     * @param \Magento\Framework\View\Element\Template\Context $context      Context
+     * @param \Magento\Store\Model\StoreManagerInterface       $storeManager Store manager
+     * @param \MAG\CmsLangMeta\Helper\Data                     $helper       Helper
+     * @param \Magento\Cms\Model\Page                          $page         CMS Page
+     * @param array                                            $data         Data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \MAG\CmsLangMeta\Helper\Data $helper,
         \Magento\Cms\Model\Page $page,
         array $data = []
     ) {
         $this->helper = $helper;
         $this->page = $page;
+        $this->storeManager = $storeManager;
         parent::__construct($context, $data);
     }
 
@@ -68,29 +76,25 @@ class Meta extends \Magento\Framework\View\Element\Template
      */
     public function hasLangSetting()
     {
-        return ($this->isCmsPageShared() && $this->helper->_getConfigForCurrentStore() !== false);
+        return ($this->isCmsPageShared() && !empty($this->helper->fetchConfigLines()));
     }
 
     /**
-     * Get CMS page URL
+     * Get meta tags
      *
      * @return string
      */
-    public function getCmsUrl()
+    public function getMetaData()
     {
-        // This just gets the current URL, but since it only shows up on CMS pages
-        // it should be more than adequate
-        return $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
-    }
-
-    /**
-     * Get language code
-     *
-     * @return string
-     */
-    public function getCmsLang()
-    {
-        return $this->helper->_getConfigForCurrentStore();
+        $return = array();
+        $data = $this->helper->fetchConfigLines();
+        foreach ($data as $row) {
+            $return[] = array(
+                'language' => $row['language'],
+                'url'      => $this->storeManager->getStore($row['storeid'])->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])
+            );
+        }
+        return $return;
     }
 
     /**

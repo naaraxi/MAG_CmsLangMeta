@@ -6,6 +6,8 @@
 
 <?php if ($block->isModuleEnabled()): ?>
     <?php if ($block->hasLangSetting()): ?>
-        <link rel="alternate" hreflang="<?php echo $block->getCmsLang() ?>" href="<?php echo $block->getCmsUrl() ?>" />
+        <?php foreach ($block->getMetaData() as $row): ?>
+            <link rel="alternate" hreflang="<?php echo $row['language'] ?>" href="<?php echo $row['url'] ?>" />
+        <?php endforeach; ?>
     <?php endif; ?>
 <?php endif; ?>
